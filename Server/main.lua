@@ -17,17 +17,26 @@ RegisterCommand('search', function(PlayerSource, args)
                 BiG.Function.Server.SendMessage(PlayerSource, 'Shoma Dar Ghesmat ^2ID^0 Bayad Adad Vared Konid')
             end
         else
-            TriggerClientEvent('BiG_Search:requestSearch', TargetPlayerID, PlayerSource)
-            TriggerClientEvent('BiG_Search:checkSearchAvailable', PlayerSource, TargetPlayerID)
-            Citizen.CreateThread(function()
-                Spams[PlayerSource] = true
-                Citizen.Wait(BiG.Config.SpamTime)
-                Spams[PlayerSource] = nil
-            end)
-            if Spams[PlayerSource] then
-                BiG.Function.Server.SendMessage(PlayerSource, 'Lotfan ^3Spam ^0Nakonid.')
-                return
+            if TargetPlayerID == PlayerSource then
+                if BiG.Config.Lang == 'English' then
+                    BiG.Function.Server.SendMessage(PlayerSource, 'You Should Enter ^2ID^0 First')
+                elseif BiG.Config.Lang == 'Persian' then
+                    BiG.Function.Server.SendMessage(PlayerSource, 'Shoma Dar Ghesmat ^2ID^0 Bayad Adad Vared Konid')
+                end
+            else
+                TriggerClientEvent('BiG_Search:requestSearch', TargetPlayerID, PlayerSource)
+                TriggerClientEvent('BiG_Search:checkSearchAvailable', PlayerSource, TargetPlayerID)
+                Citizen.CreateThread(function()
+                    Spams[PlayerSource] = true
+                    Citizen.Wait(BiG.Config.SpamTime)
+                    Spams[PlayerSource] = nil
+                end)
+                if Spams[PlayerSource] then
+                    BiG.Function.Server.SendMessage(PlayerSource, 'Lotfan ^3Spam ^0Nakonid.')
+                    return
+                end
             end
+
         end
     elseif ArgumentOneType == "string" then
         if ArgumentOne == "accept" then
