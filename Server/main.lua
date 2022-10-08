@@ -1,15 +1,13 @@
+-- Don't Touch
 Spams = {}
 
 --Main Command
-
 RegisterCommand('search', function(PlayerSource, args)
 
     -- Local Variables 
-    local SourcePlayerName = GetPlayerName(PlayerSource)
     local ArgumentOne = args[1]
     local ArgumentOneType = type(ArgumentOne)
     local TargetPlayerID = tonumber(ArgumentOne)
-    local TargetPlayerName = GetPlayerName(TargetPlayerID)
 
     if ArgumentOneType == "number" then
         if ArgumentOne == nil then

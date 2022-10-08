@@ -6,11 +6,11 @@ BiG.Function.Client = {}
 BiG.Function.Server = {}
 
 -- Config Side
-BiG.Config.FrameWork = 'StandAlone' -- Just choose between this words { 'ESX', 'StandAlone', 'ESX_Legacy', 'ESS' }
+BiG.Config.FrameWork = 'ESX' -- Just choose between this words { 'ESX', 'ESX_Legacy', 'ESS' }
 BiG.Config.Lang = 'English' -- Just Choose between { 'English' & 'Persian' }
 BiG.Config.SpamTime = 2000 -- Time Between Every Search Request and Please Choose ms { 1000ms = 1s }
-BiG.Config.MaxDistance = 3 -- 
-BiG.Config.AcceptTime = 10000 --  & Please Choose ms { 1000ms = 1s }
+BiG.Config.MaxDistance = 3 -- Distance will be required to search player
+BiG.Config.AcceptTime = 10000 -- Max Accept Time & Please Choose ms { 1000ms = 1s }
 
 -- Functions Side
 -- Functions Help : This Function send native message to player and show in player screen.
