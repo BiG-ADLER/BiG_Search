@@ -1,5 +1,5 @@
 -- Don't Touch These Lines
-local searchQueue = nil
+searchQueue = nil
 local searchRequest = nil
 if (BiG.Config.FrameWork == 'ESX') or (BiG.Config.FrameWork == 'ESS') then
     ESX = nil
@@ -12,6 +12,7 @@ if (BiG.Config.FrameWork == 'ESX') or (BiG.Config.FrameWork == 'ESS') then
 end
 
 -- Event Side
+
 RegisterNetEvent('BiG_Search:checkSearchAvailable')
 AddEventHandler('BiG_Search:checkSearchAvailable', function(target)
 
@@ -24,16 +25,13 @@ AddEventHandler('BiG_Search:checkSearchAvailable', function(target)
 
     local distance = #(pCoords - tCoords)
 
-    if distance > Config.MaxDistance then
-        TriggerEvent('chat:addMessage', {
-            color = {255,0,0},
-            args = {'[Search System]', 'ID Mored Nazar Az Shoma Kheyli door ast .'}
-        })
+    if distance > BiG.Config.MaxDistance then
+        BiG.Function.Client.SendMessage('ID Mored Nazar Az Shoma Kheyli door ast .')
         return
     end
     searchRequest = target
     Citizen.CreateThread(function()
-        Citizen.Wait(Config.AcceptTime)
+        Citizen.Wait(BiG.Config.AcceptTime)
         searchRequest = nil
     end)
 end)
