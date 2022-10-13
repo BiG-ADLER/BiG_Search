@@ -8,13 +8,15 @@ author "BiG ADLER#4557 {BiG Community}"
 version "2.5.1"
 
 shared_scripts {
+	--'@es_extended/imports.lua',
+	'@mysql-async/lib/MySQL.lua',
 	'Shared/main.lua'
-}
-
-client_scripts {
-	'Client/main.lua'
 }
 
 server_scripts {
 	'Server/main.lua'
+}
+
+client_scripts {
+	'Client/main.lua'
 }
