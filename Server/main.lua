@@ -195,7 +195,6 @@ AddEventHandler( 'BiG_Search:ConfiscateTargetPlayerItems', function(target, item
 	local _source 		= source
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
-	local targetName 	=  GetPlayerName(target)
 
 	if not targetXPlayer then return end
 
