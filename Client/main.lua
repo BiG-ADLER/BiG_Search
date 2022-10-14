@@ -52,3 +52,8 @@ AddEventHandler('BiG_Search:RemoveWeaponFromTargetPlayerPed', function(gun,ammo,
 	RemoveWeaponFromPed(GetPlayerPed(player), GetHashKey(gun))
 	TriggerServerEvent('BiG_Search:RemoveWeaponFromTargetPlayerInventory', to, gun, ammo)
 end)
+
+RegisterNetEvent('BiG_Search:ShowNativeNotification')
+AddEventHandler('BiG_Search:ShowNativeNotification', function(Message)
+    BiG.Function.Client.ShowNotification(Message)
+end)

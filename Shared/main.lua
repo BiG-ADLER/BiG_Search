@@ -1,9 +1,16 @@
 -- Don't Touch
 BiG = {}
+
+-- Config Tables [Don't Touch]
 BiG.Config = {}
+BiG.Config.Discord = {}
+BiG.Config.Discord.Webhook = {}
+
+-- Function Tables [Don't Touch]
 BiG.Function = {}
 BiG.Function.Client = {}
 BiG.Function.Server = {}
+BiG.Function.Server.Discord = {}
 
 -- Config Side
 BiG.Config.Lang = 'English' -- Just Choose between { 'English' & 'Persian' }
@@ -11,6 +18,10 @@ BiG.Config.SpamTime = 4000 -- Time Between Every Search Request and Please Choos
 BiG.Config.MaxDistance = 2 -- Distance will be required to search player
 BiG.Config.AcceptTime = 10000 -- Max Accept Time & Please Choose ms { 1000ms = 1s }
 BiG.Config.ESXEventString = 'esx:getSharedObject' -- Write your event for connect resource to your Base
+BiG.Config.Discord.ServerInviteLink = 'https://discord.gg/t6UNa6KRjv' -- Write your Discord Server invite link
+BiG.Config.Discord.ServerName = 'BiG Community' -- Write Here your server Community name
+BiG.Config.Discord.Webhook.Link = 'https://discord.com/api/webhooks/1030537380110807040/pKK1z07klK5SkGONq8VrpJhOTvm3MRYv7JFuVePjDoK2uBE9USMibqRWA6R5JTrBs2c4' -- Write you discord webhook link here
+BiG.Config.Discord.Webhook.AvatarLink = 'https://cdn.discordapp.com/attachments/986628595415916544/1025835093425672315/Png--finall.png?size=1024' -- Write your Avatar url for webhook here
 
 -- Functions Side
 -- Functions Help : This Function send native message to player and show in player screen.
@@ -87,9 +98,37 @@ function BiG.Function.Server.SendMessage(PlayerSource, StringMessage)
     TriggerClientEvent('chatMessage', PlayerSource, '[SYSTEM]', {255, 0, 0}, StringMessage)
 end
 
+-- Functions Help : This Function send native notification to player from server side
+function BiG.Function.Server.ShowNotifcation(PlayerSource, StringMessage)
+    TriggerClientEvent('BiG_Search:ShowNativeNotification', PlayerSource, StringMessage)
+end
+
 -- Functions Help : This Function get Distance between 2 players and writed in server side for server side 
 function BiG.Function.Server.GetDistanceBetweenPlayers(ObjectA, ObjectB)
     local DistanceOnX = ObjectB.x - ObjectA.x
     local DistanceOnY = ObjectB.y - ObjectA.y
     return math.sqrt((DistanceOnX ^ 2) + (DistanceOnY^2))
+end
+
+-- Functions Help : This Function Send Embed log to selected Discord Channel 
+function BiG.Function.Server.Discord.SendLogToDiscord(EmbedTitle, UsernameOfWebhook, NameOfFieldOne, ValueOfFieldOne)
+    PerformHttpRequest(BiG.Config.Discord.Webhook.Link, function(err, text, headers) end, 'POST', json.encode({
+        embeds = {
+            {
+                title = EmbedTitle,
+                fields = {
+                    {
+                        name = NameOfFieldOne,
+                        value = ValueOfFieldOne
+                    }
+                },
+                footer = {
+                    text = BiG.Config.Discord.ServerName.." - "..os.date('%d/%m/%Y | %H:%M:%S')
+                },
+                color = 2031360
+            }
+        },
+        username = UsernameOfWebhook,
+        avatar_url = BiG.Config.Discord.Webhook.AvatarLink
+    }), {["Content-Type"] = "application/json"})
 end

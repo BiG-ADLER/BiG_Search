@@ -42,13 +42,22 @@ RegisterCommand('search', function(source, args)
 				TriggerEvent('BiG_Search:requestSearch', PlayerSource, TargetPlayerID)
 				TriggerClientEvent('BiG_Search:checkSearchAvailable', PlayerSource, TargetPlayerID)
 				TargetID = TargetPlayerID
+				if BiG.Config.Lang == 'English' then
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Request", GetPlayerName(PlayerSource), "Search Request Sended", 'Source Player Info **:** **ID** : `'..PlayerSource..'`, **OOC Name** : `'..GetPlayerName(PlayerSource)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerID..'`, **OOC Name** : `'..GetPlayerName(TargetPlayerID)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(PlayerSource)..'/'..PlayerSource..'`**] Sended Search Request to [**`'..GetPlayerName(TargetPlayerID)..'/'..TargetPlayerID..'`**] and wait for Response.\n**Action** : **`Sending Search Request`**.')
+				elseif BiG.Config.Lang == 'Persian' then
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Request", GetPlayerName(PlayerSource), "Search Request Ersal Shod", 'Source Player Info **:** **ID** : `'..PlayerSource..'`, **Name OOC** : `'..GetPlayerName(PlayerSource)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerID..'`, **Name OOC** : `'..GetPlayerName(TargetPlayerID)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(PlayerSource)..'/'..PlayerSource..'`**] Be Player [**`'..GetPlayerName(TargetPlayerID)..'/'..TargetPlayerID..'`**] Request Search Dad va Montazer Javab Ast.\n**Action** : **`Sending Search Request`**.')
+				end
 				Citizen.CreateThread(function()
 					Spams[PlayerSource] = true
 					Citizen.Wait(BiG.Config.SpamTime)
 					Spams[PlayerSource] = nil
 				end)
 				if Spams[PlayerSource] then
-					BiG.Function.Server.SendMessage(PlayerSource, 'Lotfan ^3Spam ^0Nakonid.')
+					if BiG.Config.Lang == 'English' then
+						BiG.Function.Server.SendMessage(PlayerSource, 'Please Dont\'t ^2Spam ^0in Chat.')
+					elseif BiG.Config.Lang == 'Persian' then
+						BiG.Function.Server.SendMessage(PlayerSource, 'Lotfan ^3Spam ^0Nakonid.')
+					end
 					return
 				end
 			end
@@ -62,7 +71,7 @@ RegisterCommand('search', function(source, args)
 				if BiG.Config.Lang == 'English' then
 					BiG.Function.Server.SendMessage(PlayerSource, 'Please Dont\'t ^2Spam ^0in Chat.')
 				elseif BiG.Config.Lang == 'Persian' then
-					BiG.Function.Server.SendMessage(PlayerSource, 'Shoma dar hal hazer yek darkhast ^2search ^0baz darid')
+					BiG.Function.Server.SendMessage(PlayerSource, 'Lotfan ^3Spam ^0Nakonid.')
 				end
 				return
 			else
@@ -86,6 +95,11 @@ RegisterCommand('search', function(source, args)
                 return
             else
                 TriggerClientEvent('BiG_Search:acceptSearch', PlayerSource ,TargetID)
+				if BiG.Config.Lang == 'English' then
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Response", GetPlayerName(PlayerSource), "Search Response Recived", 'Source Player Info **:** **ID** : `'..PlayerSource..'`, **OOC Name** : `'..GetPlayerName(PlayerSource)..'`,\n Target Player Info **:** **ID** : `'..TargetID..'`, **OOC Name** : `'..GetPlayerName(TargetID)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(TargetID)..'/'..TargetID..'`**] **Accepted** Search Request from [**`'..GetPlayerName(PlayerSource)..'/'..PlayerSource..'`**].\n**Action** : **`Accepting Search Request`**.')
+				elseif BiG.Config.Lang == 'Persian' then
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Response", GetPlayerName(PlayerSource), "Javab Search Request Ersal Shod", 'Source Player Info **:** **ID** : `'..PlayerSource..'`, **Name OOC** : `'..GetPlayerName(PlayerSource)..'`,\n Target Player Info **:** **ID** : `'..TargetID..'`, **Name OOC** : `'..GetPlayerName(TargetID)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(TargetID)..'/'..TargetID..'`**] Search Request Player [**`'..GetPlayerName(PlayerSource)..'/'..PlayerSource..'`**] ra **Accept** Kard.\n**Action** : **`Accepting Search Request`**.')
+				end
                 if BiG.Config.Lang == 'English' then
                     BiG.Function.Server.SendMessage(PlayerSource, '^8[^4'..GetPlayerName(TargetID)..'^0/^4'..TargetID..'^8]^0 ^2Accepted ^0your search requests.')
 					BiG.Function.Server.SendMessage(TargetID, '^0You\'r ^2Accepted ^8[^4'..GetPlayerName(PlayerSource)..'^0/^4'..PlayerSource..'^8]^0 Search Request.')
@@ -105,13 +119,15 @@ RegisterCommand('search', function(source, args)
                 end
                 return
             else
-
                 if BiG.Config.Lang == 'English' then
                     BiG.Function.Server.SendMessage(PlayerSource, '^8[^4'..GetPlayerName(TargetID)..'^0/^4'..TargetID..'^8]^0 ^2Declined ^0your search requests.')
 					BiG.Function.Server.SendMessage(TargetID, '^0You\'r ^1Declined ^8[^4'..GetPlayerName(PlayerSource)..'^0/^4'..PlayerSource..'^8]^0 Search Request.')
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Response", GetPlayerName(PlayerSource), "Search Response Recived", 'Source Player Info **:** **ID** : `'..PlayerSource..'`, **OOC Name** : `'..GetPlayerName(PlayerSource)..'`,\n Target Player Info **:** **ID** : `'..TargetID..'`, **OOC Name** : `'..GetPlayerName(TargetID)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(TargetID)..'/'..TargetID..'`**] **Declined** Search Request from [**`'..GetPlayerName(PlayerSource)..'/'..PlayerSource..'`**].\n**Action** : **`Declining Search Request`**.')
                 elseif BiG.Config.Lang == 'Persian' then
                     BiG.Function.Server.SendMessage(PlayerSource, '^8[^4'..GetPlayerName(TargetID)..'^0/^4'..TargetID..'^8]^0 Darkhast Search Shomara ^2Decline ^0Kard.')
 					BiG.Function.Server.SendMessage(TargetID, '^0Shoma Darkhast Search ^8[^4'..GetPlayerName(PlayerSource)..'^0/^4'..PlayerSource..'^8]^0 ra ^1Decline ^0Kardid.')
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Response", GetPlayerName(PlayerSource), "Javab Search Request Ersal Shod", 'Source Player Info **:** **ID** : `'..PlayerSource..'`, **Name OOC** : `'..GetPlayerName(PlayerSource)..'`,\n Target Player Info **:** **ID** : `'..TargetID..'`, **Name OOC** : `'..GetPlayerName(TargetID)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(TargetID)..'/'..TargetID..'`**] Search Request Player [**`'..GetPlayerName(PlayerSource)..'/'..PlayerSource..'`**] ra **Decline** Kard.\n**Action** : **`Declining Search Request`**.')
+
                 end
 
             end
@@ -133,7 +149,7 @@ AddEventHandler('BiG_Search:requestSearch', function(SourcePlayer, TargetPlayer)
     if DistanceBetweenPlayers > BiG.Config.MaxDistance then return end
 
 	if BiG.Config.Lang == 'English' then
-		BiG.Function.Server.SendMessage(TargetPlayer,'^8[^4'..GetPlayerName(SourcePlayer)..'^0/^4'..SourcePlayer..'^8] ^0He Want to Search you , For accept Type [^0/search^2 accept^0] or for Decline Type [^0/search^8 deny^0] ^0in Chat.')
+		BiG.Function.Server.SendMessage(TargetPlayer,'^8[^6'..GetPlayerName(SourcePlayer)..'^0/^6'..SourcePlayer..'^8] ^0He Want to Search you , For accept Type [^0/search^2 accept^0] or for Decline Type [^0/search^8 deny^0] ^0in Chat.')
 	elseif BiG.Config.Lang == 'Persian' then
 		BiG.Function.Server.SendMessage(TargetPlayer,'^8[^4'..GetPlayerName(SourcePlayer)..'^0/^4'..SourcePlayer..'^8] ^0Mikhahad Shomara search konad , Baraye Accept Kardan Command [^0/search^2 accept^0] Ra Vared Konid va Baraye Deny Kardan Command [^0/search^8 deny^0] ^0ra vared konid .')
 	end
@@ -148,16 +164,9 @@ end)
 ESX.RegisterServerCallback('BiG_Search:ShowTargetPlayerInventory', function(source, cb, target)
 
 	local xPlayer = ESX.GetPlayerFromId(target)
-
 	local identifier = GetPlayerIdentifiers(target)[1]
-
-	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
-		['@identifier'] = identifier
-	})
-
-	local name 		= result[1].playerName or (result[1].firstname.."_"..result[1].lastname)
-	local dob       = result[1].dateofbirth
-	local height    = result[1].height
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {['@identifier'] = identifier})
+	local name = result[1].playerName or (result[1].firstname.."_"..result[1].lastname)
 	local sex
 
 	if result[1].skin ~= nil then
@@ -166,14 +175,7 @@ ESX.RegisterServerCallback('BiG_Search:ShowTargetPlayerInventory', function(sour
 		if isMale then sex = 'm' else sex = 'f' end
 	end
 
-	local data = {
-		name      = name,
-		money	  = xPlayer.money,
-		job       = xPlayer.job,
-		inventory = xPlayer.inventory,
-		weapons   = xPlayer.loadout,
-		sex       = sex
-	}
+	local data = {name = name, money = xPlayer.money, job = xPlayer.job, inventory = xPlayer.inventory, weapons = xPlayer.loadout, sex = sex}
 
 	TriggerEvent('esx_status:getStatus', target, 'drunk', function(status)
 		if status ~= nil then
@@ -193,13 +195,16 @@ AddEventHandler( 'BiG_Search:ConfiscateTargetPlayerItems', function(target, item
 	local _source 		= source
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
-	local oocname 		=  GetPlayerName(source)
 	local targetName 	=  GetPlayerName(target)
 
 	if not targetXPlayer then return end
 
 	if targetXPlayer.get("aduty") or targetXPlayer.get("admin") then
-		TriggerClientEvent('esx:showNotification', sourceXPlayer.source, 'Shoma Nemitavanid Admin On Duty Ra Loot Konid')
+		if BiG.Config.Lang == 'English' then
+			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You Can\'t Search OnDuty Admin')
+		elseif BiG.Config.Lang == 'Persian' then
+			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Shoma Nemitavanid Admin OnDuty ra Search Konid')
+		end
 		return
 	end
     if itemType == 'item_standard' then
@@ -209,16 +214,28 @@ AddEventHandler( 'BiG_Search:ConfiscateTargetPlayerItems', function(target, item
     	local targetItemCount = targetXPlayer.getInventoryItem(itemName).count
     	if amount > 0 and targetItemCount >= amount then
     		if itemLimit ~= -1 and (sourceItemCount + amount) > itemLimit then
-    			TriggerClientEvent('esx:showNotification', targetXPlayer.source, _U('ex_inv_lim_target'))
-    			TriggerClientEvent('esx:showNotification', sourceXPlayer.source, _U('ex_inv_lim_source'))
+				if BiG.Config.Lang == 'English' then
+					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You Can\'t Pickup Because Your inventory is Full.')
+				elseif BiG.Config.Lang == 'Persian' then
+					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Inventory Shoma Por Shode ast.')
+				end
     		else
     			targetXPlayer.removeInventoryItem(itemName, amount)
     			sourceXPlayer.addInventoryItem(itemName, amount)
-    			TriggerClientEvent('esx:showNotification', sourceXPlayer.source, _U('you_stole') .. ' ~g~x' .. amount .. ' ' .. label .. ' ~w~' .. _U('from_your_target') )
-    			TriggerClientEvent('esx:showNotification', targetXPlayer.source, _U('someone_stole') .. ' ~r~x'  .. amount .. ' ' .. label )
+				if BiG.Config.Lang == 'English' then
+					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You\'r Stole ~g~x' .. amount .. ' ~w~from ~g~' .. label .. ' ~w~ From ~y~'..GetPlayerName(targetXPlayer.source))
+					BiG.Function.Server.ShowNotifcation(targetXPlayer.source, GetPlayerName(sourceXPlayer.source)' Stoled ~r~x'  .. amount .. ' ~w~from ~r~' .. label .. '~w~ From your inventory')
+				elseif BiG.Config.Lang == 'Persian' then
+					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Shoma ~g~x' .. amount .. ' ~w~az ~g~' .. label .. ' ~w~ az ~y~'..GetPlayerName(targetXPlayer.source)..'~w~ Dozdidid')
+					BiG.Function.Server.ShowNotifcation(targetXPlayer.source, GetPlayerName(sourceXPlayer.source)' az Shoma ~r~x'  .. amount .. ' ~w~az ~r~' .. label .. '~w~ Dozdid')
+				end
     		end
     	else
-    		TriggerClientEvent('esx:showNotification', _source, _U('invalid_quantity'))
+			if BiG.Config.Lang == 'English' then
+				BiG.Function.Server.ShowNotifcation(_source, 'Invalid Quantity')
+			elseif BiG.Config.Lang == 'Persian' then
+				BiG.Function.Server.ShowNotifcation(_source, 'Tedad Na Motabar ast')
+			end
     	end
 
     elseif itemType == 'item_money' then
@@ -226,12 +243,19 @@ AddEventHandler( 'BiG_Search:ConfiscateTargetPlayerItems', function(target, item
     	if amount > 0 and targetXPlayer.get('money') >= amount then
     		targetXPlayer.removeMoney(amount)
     		sourceXPlayer.addMoney(amount)
-
-    		TriggerClientEvent('esx:showNotification', sourceXPlayer.source, _U('you_stole') .. ' ~g~$' .. amount .. ' ~w~' .. _U('from_your_target') )
-    		TriggerClientEvent('esx:showNotification', targetXPlayer.source, _U('someone_stole') .. ' ~r~$'  .. amount )
-    		TriggerEvent('DiscordBot:ToDiscord', 'loot', sourceXPlayer.name .. '('.. source .. ')', '```css\n ' .. GetPlayerName(source).. '('.. sourceXPlayer.name .. ')\nTedad ('..amount ..'$) Az '.. targetXPlayer.name ..'(' .. targetName .. ') Loot Kard\n```')
+			if BiG.Config.Lang == 'English' then
+				BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You\'r Stoled ' .. '~g~$' .. amount .. ' ~w~' .. 'From ~y~'..GetPlayerName(targetXPlayer.source))
+				BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'..GetPlayerName(sourceXPlayer.source)..'~w~ Stoled ~r~$'..amount..'~w~ from you')
+			elseif BiG.Config.Lang == 'Persian' then
+				BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Shoma ' .. '~g~$' .. amount .. ' ~w~' .. 'az ~y~'..GetPlayerName(targetXPlayer.source)..'~w~ Dozdidid')
+				BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'..GetPlayerName(sourceXPlayer.source)..'~w~ az shoma ~r~$'..amount..'~w~ Dozdid')
+			end
     	else
-    		TriggerClientEvent('esx:showNotification', _source, _U('imp_invalid_amount'))
+			if BiG.Config.Lang == 'English' then
+				BiG.Function.Server.ShowNotifcation(_source, 'Invalid ~g~Money ~w~Quantity')
+			elseif BiG.Config.Lang == 'Persian' then
+				BiG.Function.Server.ShowNotifcation(_source, 'Meghdar ~g~Pool ~w~Na Motabar ast')
+			end
     	end
 
     elseif itemType == 'item_weapon' then
@@ -246,16 +270,19 @@ AddEventHandler('BiG_Search:RemoveWeaponFromTargetPlayerInventory', function(tar
 	local _source 		= source
 	local sourceXPlayer = ESX.GetPlayerFromId(target)
 	local targetXPlayer = ESX.GetPlayerFromId(_source)
-	local oocname 		=  GetPlayerName(source)
-	local targetName 	=  GetPlayerName(target)
 	local weapon = targetXPlayer.hasWeapon(itemName)
 
 	if weapon then
 		targetXPlayer.removeWeapon(itemName, ammo)
 		sourceXPlayer.addWeapon(itemName, ammo)
 
-		TriggerClientEvent('esx:showNotification', sourceXPlayer.source, _U('you_stole') .. ' ~g~x' .. ammo .. ' ' .. itemName .. ' ~w~' .. _U('from_your_target') )
-		TriggerClientEvent('esx:showNotification', targetXPlayer.source, _U('someone_stole') .. ' ~r~x'  .. ammo .. ' ' .. itemName )
+		if BiG.Config.Lang == 'English' then
+			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source,'You\'r Stoled ' .. ' ~g~x' .. ammo .. '~w~/~g~'..itemName..'~w~ From ~y~'..GetPlayerName(targetXPlayer.source))
+			BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'.. GetPlayerName(sourceXPlayer.source) .. 'Stoled ~r~x'  .. ammo .. '~w~/~r~' .. itemName ..'~w~ From your inventory')
+        elseif BiG.Config.Lang == 'Persian' then
+			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source,'Shoma' .. ' ~g~x' .. ammo .. '~w~/~g~'..itemName..'~w~ Az ~y~'..GetPlayerName(targetXPlayer.source)..'~w~ Dozdidid')
+			BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'.. GetPlayerName(sourceXPlayer.source) .. 'az Shoma ~r~x'  .. ammo .. '~w~/~r~' .. itemName ..'~w~ Ra dozdid')
+        end
 		if weapon.components ~= {} then
 			for k,v in pairs(weapon.components) do
 				sourceXPlayer.addWeaponComponent(itemName, v)
