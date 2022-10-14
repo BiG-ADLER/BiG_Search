@@ -8,8 +8,7 @@ author "BiG ADLER#4557 {BiG Community}"
 version "2.5.1"
 
 shared_scripts {
-	--'@es_extended/imports.lua',
-	'@mysql-async/lib/MySQL.lua',
+	'@mysql-async/lib/MySQL.lua', -- also you can use oxmysql
 	'Shared/main.lua'
 }
 
