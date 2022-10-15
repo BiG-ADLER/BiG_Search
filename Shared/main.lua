@@ -71,7 +71,7 @@ function BiG.Function.Client.ShowTargetPlayerInventory(TargetPlayer)
 
         ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'body_search',
                 {
-                    title    = 'search',
+                    title    = 'Search Menu',
                     align    = 'top-left',
                     elements = elements,
                 },
