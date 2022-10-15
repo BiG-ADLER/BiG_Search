@@ -105,9 +105,7 @@ end
 
 -- Functions Help : This Function get Distance between 2 players and writed in server side for server side 
 function BiG.Function.Server.GetDistanceBetweenPlayers(ObjectA, ObjectB)
-    local DistanceOnX = ObjectB.x - ObjectA.x
-    local DistanceOnY = ObjectB.y - ObjectA.y
-    return math.sqrt((DistanceOnX ^ 2) + (DistanceOnY^2))
+    return #(vector3(ObjectA.x, ObjectA.y, ObjectA.z) - vector3(ObjectB.x, ObjectB.y, ObjectB.z))
 end
 
 -- Functions Help : This Function Send Embed log to selected Discord Channel 
