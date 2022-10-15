@@ -191,106 +191,106 @@ ESX.RegisterServerCallback('BiG_Search:ShowTargetPlayerInventory', function(sour
 end)
 
 RegisterNetEvent('BiG_Search:ConfiscateTargetPlayerItems')
-AddEventHandler( 'BiG_Search:ConfiscateTargetPlayerItems', function(target, itemType, itemName, amount)
-	local _source 		= source
-	local sourceXPlayer = ESX.GetPlayerFromId(_source)
-	local targetXPlayer = ESX.GetPlayerFromId(target)
+AddEventHandler( 'BiG_Search:ConfiscateTargetPlayerItems', function(TargetPlayer, TypeOfItem, NameOfItem, AmountOfItem)
+	local SourcePlayer = source
+	local SourcePlayerESXData = ESX.GetPlayerFromId(SourcePlayer)
+	local TargetPlayerESXData = ESX.GetPlayerFromId(TargetPlayer)
 
-	if not targetXPlayer then return end
+	if not TargetPlayerESXData then return end
 
-	if targetXPlayer.get("aduty") or targetXPlayer.get("admin") then
+	if TargetPlayerESXData.get("aduty") or TargetPlayerESXData.get("admin") then
 		if BiG.Config.Lang == 'English' then
-			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You Can\'t Search OnDuty Admin')
+			BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'You Can\'t Search OnDuty Admin')
 		elseif BiG.Config.Lang == 'Persian' then
-			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Shoma Nemitavanid Admin OnDuty ra Search Konid')
+			BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'Shoma Nemitavanid Admin OnDuty ra Search Konid')
 		end
 		return
 	end
-    if itemType == 'item_standard' then
-    	local label = sourceXPlayer.getInventoryItem(itemName).label
-    	local itemLimit = sourceXPlayer.getInventoryItem(itemName).limit
-    	local sourceItemCount = sourceXPlayer.getInventoryItem(itemName).count
-    	local targetItemCount = targetXPlayer.getInventoryItem(itemName).count
-    	if amount > 0 and targetItemCount >= amount then
-    		if itemLimit ~= -1 and (sourceItemCount + amount) > itemLimit then
+    if TypeOfItem == 'item_standard' then
+    	local LabelOfItemName = SourcePlayerESXData.getInventoryItem(NameOfItem).label
+    	local InventoryLimitOfItem = SourcePlayerESXData.getInventoryItem(NameOfItem).limit
+    	local SourcePlayerInventoryItemCount = SourcePlayerESXData.getInventoryItem(NameOfItem).count
+    	local TargetPlayerInventoryItemCount = TargetPlayerESXData.getInventoryItem(NameOfItem).count
+    	if AmountOfItem > 0 and TargetPlayerInventoryItemCount >= AmountOfItem then
+    		if InventoryLimitOfItem ~= -1 and (SourcePlayerInventoryItemCount + AmountOfItem) > InventoryLimitOfItem then
 				if BiG.Config.Lang == 'English' then
-					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You Can\'t Pickup Because Your inventory is Full.')
+					BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'You Can\'t Pickup Because Your inventory is Full.')
 				elseif BiG.Config.Lang == 'Persian' then
-					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Inventory Shoma Por Shode ast.')
+					BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'Inventory Shoma Por Shode ast.')
 				end
     		else
-    			targetXPlayer.removeInventoryItem(itemName, amount)
-    			sourceXPlayer.addInventoryItem(itemName, amount)
+    			TargetPlayerESXData.removeInventoryItem(NameOfItem, AmountOfItem)
+    			SourcePlayerESXData.addInventoryItem(NameOfItem, AmountOfItem)
 				if BiG.Config.Lang == 'English' then
-					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You\'r Stole ~g~x' .. amount .. ' ~w~from ~g~' .. label .. ' ~w~ From ~y~'..GetPlayerName(targetXPlayer.source))
-					BiG.Function.Server.ShowNotifcation(targetXPlayer.source, GetPlayerName(sourceXPlayer.source)' Stoled ~r~x'  .. amount .. ' ~w~from ~r~' .. label .. '~w~ From your inventory')
-					BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(sourceXPlayer.source), "Stoling Item From Player", 'Source Player Info **:** **ID** : `'..sourceXPlayer.source..'`, **OOC Name** : `'..GetPlayerName(sourceXPlayer.source)..'`,\n Target Player Info **:** **ID** : `'..targetXPlayer.source..'`, **OOC Name** : `'..GetPlayerName(targetXPlayer.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(sourceXPlayer.source)..'/'..sourceXPlayer.source..'`**] **Stoled** ['..amount..'x From '..label..'] from [**`'..GetPlayerName(targetXPlayer.source)..'/'..targetXPlayer.source..'`**].\n**Action** : **`Stoling Item From Player`**.')
+					BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'You\'r Stole ~g~x' .. AmountOfItem .. ' ~w~from ~g~' .. LabelOfItemName .. ' ~w~ From ~y~'..GetPlayerName(TargetPlayerESXData.source))
+					BiG.Function.Server.ShowNotifcation(TargetPlayerESXData.source, GetPlayerName(SourcePlayerESXData.source)' Stoled ~r~x'  .. AmountOfItem .. ' ~w~from ~r~' .. LabelOfItemName .. '~w~ From your inventory')
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(SourcePlayerESXData.source), "Stoling Item From Player", 'Source Player Info **:** **ID** : `'..SourcePlayerESXData.source..'`, **OOC Name** : `'..GetPlayerName(SourcePlayerESXData.source)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerESXData.source..'`, **OOC Name** : `'..GetPlayerName(TargetPlayerESXData.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(SourcePlayerESXData.source)..'/'..SourcePlayerESXData.source..'`**] **Stoled** ['..AmountOfItem..'x From '..label..'] from [**`'..GetPlayerName(TargetPlayerESXData.source)..'/'..TargetPlayerESXData.source..'`**].\n**Action** : **`Stoling Item From Player`**.')
 				elseif BiG.Config.Lang == 'Persian' then
-					BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Shoma ~g~x' .. amount .. ' ~w~az ~g~' .. label .. ' ~w~ az ~y~'..GetPlayerName(targetXPlayer.source)..'~w~ Dozdidid')
-					BiG.Function.Server.ShowNotifcation(targetXPlayer.source, GetPlayerName(sourceXPlayer.source)' az Shoma ~r~x'  .. amount .. ' ~w~az ~r~' .. label .. '~w~ Dozdid')
-					BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(sourceXPlayer.source), "Dozdidan Item az Player", 'Source Player Info **:** **ID** : `'..sourceXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(sourceXPlayer.source)..'`,\n Target Player Info **:** **ID** : `'..targetXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(targetXPlayer.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(sourceXPlayer.source)..'/'..sourceXPlayer.source..'`**], ['..amount..'x az '..label..'] Az [**`'..GetPlayerName(targetXPlayer.source)..'/'..targetXPlayer.source..'`**] **Dozdid**.\n**Action** : **`Dozdidan Item az Player`**.')
+					BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'Shoma ~g~x' .. AmountOfItem .. ' ~w~az ~g~' .. LabelOfItemName .. ' ~w~ az ~y~'..GetPlayerName(TargetPlayerESXData.source)..'~w~ Dozdidid')
+					BiG.Function.Server.ShowNotifcation(TargetPlayerESXData.source, GetPlayerName(SourcePlayerESXData.source)' az Shoma ~r~x'  .. AmountOfItem .. ' ~w~az ~r~' .. LabelOfItemName .. '~w~ Dozdid')
+					BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(SourcePlayerESXData.source), "Dozdidan Item az Player", 'Source Player Info **:** **ID** : `'..SourcePlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(SourcePlayerESXData.source)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(TargetPlayerESXData.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(SourcePlayerESXData.source)..'/'..SourcePlayerESXData.source..'`**], ['..AmountOfItem..'x az '..label..'] Az [**`'..GetPlayerName(TargetPlayerESXData.source)..'/'..TargetPlayerESXData.source..'`**] **Dozdid**.\n**Action** : **`Dozdidan Item az Player`**.')
 				end
     		end
     	else
 			if BiG.Config.Lang == 'English' then
-				BiG.Function.Server.ShowNotifcation(_source, 'Invalid Quantity')
+				BiG.Function.Server.ShowNotifcation(SourcePlayer, 'Invalid Quantity')
 			elseif BiG.Config.Lang == 'Persian' then
-				BiG.Function.Server.ShowNotifcation(_source, 'Tedad Na Motabar ast')
+				BiG.Function.Server.ShowNotifcation(SourcePlayer, 'Tedad Na Motabar ast')
 			end
     	end
 
-    elseif itemType == 'item_money' then
+    elseif TypeOfItem == 'item_money' then
 
-    	if amount > 0 and targetXPlayer.get('money') >= amount then
-    		targetXPlayer.removeMoney(amount)
-    		sourceXPlayer.addMoney(amount)
+    	if AmountOfItem > 0 and TargetPlayerESXData.get('money') >= AmountOfItem then
+    		TargetPlayerESXData.removeMoney(AmountOfItem)
+    		SourcePlayerESXData.addMoney(AmountOfItem)
 			if BiG.Config.Lang == 'English' then
-				BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'You\'r Stoled ' .. '~g~$' .. amount .. ' ~w~' .. 'From ~y~'..GetPlayerName(targetXPlayer.source))
-				BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'..GetPlayerName(sourceXPlayer.source)..'~w~ Stoled ~r~$'..amount..'~w~ from you')
-				BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(sourceXPlayer.source), "Stoling Item From Player", 'Source Player Info **:** **ID** : `'..sourceXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(sourceXPlayer.source)..'`,\n Target Player Info **:** **ID** : `'..targetXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(targetXPlayer.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(sourceXPlayer.source)..'/'..sourceXPlayer.source..'`**], **Stoled** [$'..amount..'💵] From [**`'..GetPlayerName(targetXPlayer.source)..'/'..targetXPlayer.source..'`**].\n**Action** : **`Stoling Money from Player`**.')
+				BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'You\'r Stoled ' .. '~g~$' .. AmountOfItem .. ' ~w~' .. 'From ~y~'..GetPlayerName(TargetPlayerESXData.source))
+				BiG.Function.Server.ShowNotifcation(TargetPlayerESXData.source, '~y~'..GetPlayerName(SourcePlayerESXData.source)..'~w~ Stoled ~r~$'..AmountOfItem..'~w~ from you')
+				BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(SourcePlayerESXData.source), "Stoling Item From Player", 'Source Player Info **:** **ID** : `'..SourcePlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(SourcePlayerESXData.source)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(TargetPlayerESXData.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(SourcePlayerESXData.source)..'/'..SourcePlayerESXData.source..'`**], **Stoled** [$'..AmountOfItem..'💵] From [**`'..GetPlayerName(TargetPlayerESXData.source)..'/'..TargetPlayerESXData.source..'`**].\n**Action** : **`Stoling Money from Player`**.')
 			elseif BiG.Config.Lang == 'Persian' then
-				BiG.Function.Server.ShowNotifcation(sourceXPlayer.source, 'Shoma ' .. '~g~$' .. amount .. ' ~w~' .. 'az ~y~'..GetPlayerName(targetXPlayer.source)..'~w~ Dozdidid')
-				BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'..GetPlayerName(sourceXPlayer.source)..'~w~ az shoma ~r~$'..amount..'~w~ Dozdid')
-				BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(sourceXPlayer.source), "Dozdidan Item az Player", 'Source Player Info **:** **ID** : `'..sourceXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(sourceXPlayer.source)..'`,\n Target Player Info **:** **ID** : `'..targetXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(targetXPlayer.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(sourceXPlayer.source)..'/'..sourceXPlayer.source..'`**], [$'..amount..'💵] Az [**`'..GetPlayerName(targetXPlayer.source)..'/'..targetXPlayer.source..'`**] **Dozdid**.\n**Action** : **`Dozdidan Pool az Player`**.')
+				BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source, 'Shoma ' .. '~g~$' .. AmountOfItem .. ' ~w~' .. 'az ~y~'..GetPlayerName(TargetPlayerESXData.source)..'~w~ Dozdidid')
+				BiG.Function.Server.ShowNotifcation(TargetPlayerESXData.source, '~y~'..GetPlayerName(SourcePlayerESXData.source)..'~w~ az shoma ~r~$'..AmountOfItem..'~w~ Dozdid')
+				BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(SourcePlayerESXData.source), "Dozdidan Item az Player", 'Source Player Info **:** **ID** : `'..SourcePlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(SourcePlayerESXData.source)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(TargetPlayerESXData.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(SourcePlayerESXData.source)..'/'..SourcePlayerESXData.source..'`**], [$'..AmountOfItem..'💵] Az [**`'..GetPlayerName(TargetPlayerESXData.source)..'/'..TargetPlayerESXData.source..'`**] **Dozdid**.\n**Action** : **`Dozdidan Pool az Player`**.')
 			end
     	else
 			if BiG.Config.Lang == 'English' then
-				BiG.Function.Server.ShowNotifcation(_source, 'Invalid ~g~Money ~w~Quantity')
+				BiG.Function.Server.ShowNotifcation(SourcePlayer, 'Invalid ~g~Money ~w~Quantity')
 			elseif BiG.Config.Lang == 'Persian' then
-				BiG.Function.Server.ShowNotifcation(_source, 'Meghdar ~g~Pool ~w~Na Motabar ast')
+				BiG.Function.Server.ShowNotifcation(SourcePlayer, 'Meghdar ~g~Pool ~w~Na Motabar ast')
 			end
     	end
 
-    elseif itemType == 'item_weapon' then
-    	local weapon = targetXPlayer.hasWeapon(itemName)
-    	TriggerClientEvent('BiG_Search:RemoveWeaponFromTargetPlayerPed', target, itemName,weapon.ammo,_source)
+    elseif TypeOfItem == 'item_weapon' then
+    	local PlayerWeapon = TargetPlayerESXData.hasWeapon(NameOfItem)
+    	TriggerClientEvent('BiG_Search:RemoveWeaponFromTargetPlayerPed', TargetPlayer, NameOfItem, PlayerWeapon.ammo, SourcePlayer)
     end
 
 end)
 
 RegisterServerEvent('BiG_Search:RemoveWeaponFromTargetPlayerInventory')
-AddEventHandler('BiG_Search:RemoveWeaponFromTargetPlayerInventory', function(target, itemName, ammo)
-	local _source 		= source
-	local sourceXPlayer = ESX.GetPlayerFromId(target)
-	local targetXPlayer = ESX.GetPlayerFromId(_source)
-	local weapon = targetXPlayer.hasWeapon(itemName)
+AddEventHandler('BiG_Search:RemoveWeaponFromTargetPlayerInventory', function(TargetPlayer, WeaponName, WeaponAmmoCount)
+	local SourcePlayer = source
+	local SourcePlayerESXData = ESX.GetPlayerFromId(TargetPlayer)
+	local TargetPlayerESXData = ESX.GetPlayerFromId(SourcePlayer)
+	local WeaponData = TargetPlayerESXData.hasWeapon(WeaponName)
 
-	if weapon then
-		targetXPlayer.removeWeapon(itemName, ammo)
-		sourceXPlayer.addWeapon(itemName, ammo)
+	if WeaponData then
+		TargetPlayerESXData.removeWeapon(WeaponName, WeaponAmmoCount)
+		SourcePlayerESXData.addWeapon(WeaponName, WeaponAmmoCount)
 
 		if BiG.Config.Lang == 'English' then
-			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source,'You\'r Stoled ' .. ' ~g~x' .. ammo .. '~w~/~g~'..itemName..'~w~ From ~y~'..GetPlayerName(targetXPlayer.source))
-			BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'.. GetPlayerName(sourceXPlayer.source) .. 'Stoled ~r~x'  .. ammo .. '~w~/~r~' .. itemName ..'~w~ From your inventory')
-			BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(sourceXPlayer.source), "Stoling Item From Player", 'Source Player Info **:** **ID** : `'..sourceXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(sourceXPlayer.source)..'`,\n Target Player Info **:** **ID** : `'..targetXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(targetXPlayer.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(sourceXPlayer.source)..'/'..sourceXPlayer.source..'`**], **Stoled** [Gun : **'..itemName..'** with **'..ammo..'** Ammo] From [**`'..GetPlayerName(targetXPlayer.source)..'/'..targetXPlayer.source..'`**].\n**Action** : **`Stoling Weapon from Player`**.')
+			BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source,'You\'r Stoled ' .. ' ~g~x' .. WeaponAmmoCount .. '~w~/~g~'..WeaponName..'~w~ From ~y~'..GetPlayerName(TargetPlayerESXData.source))
+			BiG.Function.Server.ShowNotifcation(TargetPlayerESXData.source, '~y~'.. GetPlayerName(SourcePlayerESXData.source) .. 'Stoled ~r~x'  .. WeaponAmmoCount .. '~w~/~r~' .. WeaponName ..'~w~ From your inventory')
+			BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(SourcePlayerESXData.source), "Stoling Item From Player", 'Source Player Info **:** **ID** : `'..SourcePlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(SourcePlayerESXData.source)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(TargetPlayerESXData.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(SourcePlayerESXData.source)..'/'..SourcePlayerESXData.source..'`**], **Stoled** [Gun : **'..WeaponName..'** with **'..WeaponAmmoCount..'** Ammo] From [**`'..GetPlayerName(TargetPlayerESXData.source)..'/'..TargetPlayerESXData.source..'`**].\n**Action** : **`Stoling Weapon from Player`**.')
         elseif BiG.Config.Lang == 'Persian' then
-			BiG.Function.Server.ShowNotifcation(sourceXPlayer.source,'Shoma' .. ' ~g~x' .. ammo .. '~w~/~g~'..itemName..'~w~ Az ~y~'..GetPlayerName(targetXPlayer.source)..'~w~ Dozdidid')
-			BiG.Function.Server.ShowNotifcation(targetXPlayer.source, '~y~'.. GetPlayerName(sourceXPlayer.source) .. 'az Shoma ~r~x'  .. ammo .. '~w~/~r~' .. itemName ..'~w~ Ra dozdid')
-			BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(sourceXPlayer.source), "Dozdidan Item az Player", 'Source Player Info **:** **ID** : `'..sourceXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(sourceXPlayer.source)..'`,\n Target Player Info **:** **ID** : `'..targetXPlayer.source..'`, **Name OOC** : `'..GetPlayerName(targetXPlayer.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(sourceXPlayer.source)..'/'..sourceXPlayer.source..'`**], [Gun : **'..itemName'** ba **'..ammo..'** tir] Az [**`'..GetPlayerName(targetXPlayer.source)..'/'..targetXPlayer.source..'`**] **Dozdid**.\n**Action** : **`Dozdidan Gun az Player`**.')
+			BiG.Function.Server.ShowNotifcation(SourcePlayerESXData.source,'Shoma' .. ' ~g~x' .. WeaponAmmoCount .. '~w~/~g~'..WeaponName..'~w~ Az ~y~'..GetPlayerName(TargetPlayerESXData.source)..'~w~ Dozdidid')
+			BiG.Function.Server.ShowNotifcation(TargetPlayerESXData.source, '~y~'.. GetPlayerName(SourcePlayerESXData.source) .. 'az Shoma ~r~x'  .. WeaponAmmoCount .. '~w~/~r~' .. WeaponName ..'~w~ Ra dozdid')
+			BiG.Function.Server.Discord.SendLogToDiscord("Search Stole", GetPlayerName(SourcePlayerESXData.source), "Dozdidan Item az Player", 'Source Player Info **:** **ID** : `'..SourcePlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(SourcePlayerESXData.source)..'`,\n Target Player Info **:** **ID** : `'..TargetPlayerESXData.source..'`, **Name OOC** : `'..GetPlayerName(TargetPlayerESXData.source)..'`.\n **Time Stamp** : **`'..os.time()..'`**,\n**Data** : Player [**`'..GetPlayerName(SourcePlayerESXData.source)..'/'..SourcePlayerESXData.source..'`**], [Gun : **'..WeaponName'** ba **'..WeaponAmmoCount..'** tir] Az [**`'..GetPlayerName(TargetPlayerESXData.source)..'/'..TargetPlayerESXData.source..'`**] **Dozdid**.\n**Action** : **`Dozdidan Gun az Player`**.')
         end
-		if weapon.components ~= {} then
-			for k,v in pairs(weapon.components) do
-				sourceXPlayer.addWeaponComponent(itemName, v)
+		if WeaponData.components ~= {} then
+			for k,v in pairs(WeaponData.components) do
+				SourcePlayerESXData.addWeaponComponent(WeaponName, v)
 			end
 		end
 	end
