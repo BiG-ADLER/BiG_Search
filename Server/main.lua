@@ -38,6 +38,14 @@ RegisterCommand('search', function(source, args)
 				end
 				return
 			end
+			if TargetPlayerID == PlayerSource then
+				if BiG.Config.Lang == 'English' then
+				  BiG.Function.Server.SendMessage(PlayerSource, 'You ^8Cant ^2Search ^0your inventory')
+				elseif BiG.Config.Lang == 'Persian' then
+				  BiG.Function.Server.SendMessage(PlayerSource, 'Shoma ^8Nemitavanid ^0 Inventory khod ra ^2Search^0 Konid')
+				end
+				return
+			end
 			if DistanceBetweenPlayers <= BiG.Config.MaxDistance then
 				TriggerEvent('BiG_Search:requestSearch', PlayerSource, TargetPlayerID)
 				TriggerClientEvent('BiG_Search:checkSearchAvailable', PlayerSource, TargetPlayerID)
